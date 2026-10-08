@@ -1,0 +1,4 @@
+data/
+.env
+kedaibuku_dbt/target/
+kedaibuku_dbt/logs/

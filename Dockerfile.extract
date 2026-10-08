@@ -1,0 +1,8 @@
+# Lab 7, Step 1: package the extraction scripts as a Docker image
+FROM python:3.11-slim
+WORKDIR /app
+# Install packages first: Docker caches this layer, so code changes rebuild in seconds
+COPY requirements-extract.txt .
+RUN pip install --no-cache-dir -r requirements-extract.txt
+COPY src/extract_books.py src/extract_fx.py ./src/
+CMD ["python", "src/extract_fx.py"]

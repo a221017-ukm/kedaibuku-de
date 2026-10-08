@@ -1,0 +1,18 @@
+{
+  "name": "TTTC3213 Data Engineering",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "hostRequirements": { "cpus": 2, "memory": "8gb" },
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "forwardPorts": [8080, 8081, 8082, 8501],
+  "portsAttributes": {
+    "8080": { "label": "Airflow" },
+    "8081": { "label": "Adminer" },
+    "8082": { "label": "dbt docs" },
+    "8501": { "label": "Streamlit dashboard" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "ms-toolsai.jupyter", "ms-azuretools.vscode-docker"]
+    }
+  }
+}
