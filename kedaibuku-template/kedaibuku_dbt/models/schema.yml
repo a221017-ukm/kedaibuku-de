@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: Calendar for 2026, one row per day.
+    columns:
+      - name: date_key
+        data_tests: [unique, not_null]
+
+  - name: dim_book
+    description: Book catalogue with prices converted to MYR.
+    columns:
+      - name: book_id
+        data_tests: [unique, not_null]
+      - name: rating
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5]
+              config:
+                quote: false
+
+  - name: dim_customer
+    description: Customers without direct identifiers (PDPA data minimisation).
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+      - name: state
+        description: Must be one of the 13 cleaned state names from Lab 5.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang",
+                         "Pulau Pinang", "Perak", "Selangor", "Terengganu", "Sabah", "Sarawak",
+                         "WP Kuala Lumpur"]
+
+  - name: fact_sales
+    description: One row per order line. Revenue in MYR.
+    config:
+      contract:
+        enforced: true            # the build fails if columns or types drift from this list
+    columns:
+      - name: order_id
+        data_type: text
+        constraints:
+          - type: primary_key     # dbt creates a real primary key in PostgreSQL
+        data_tests: [unique, not_null]
+      - name: date_key
+        data_type: integer
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: customer_id
+        data_type: text
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
+      - name: book_id
+        data_type: text
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_book')
+                field: book_id
+      - name: quantity
+        data_type: bigint
+      - name: unit_price_myr
+        data_type: double precision
+      - name: revenue_myr
+        data_type: numeric
