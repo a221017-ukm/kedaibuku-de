@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16      # PostgreSQL 16 plus the pgvector extension (used in Lab 8)
+    command: ["postgres", "-c", "wal_level=logical"]   # switches on change data capture (Lab 3)
+    container_name: kedai-postgres
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+ 
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
+ 
+volumes:
+  pgdata:
