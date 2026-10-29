@@ -8,7 +8,7 @@ from datetime import date
 
 import requests
 
-URL = "https://api.bnm.gov.my/public/exchange-rate/GBP"
+URL = "https://api.bnm.gov.my/public/exchange-rate/GBP?session=0900&quote=rm"
 HEADERS = {"Accept": "application/vnd.BNM.API.v1+json"}   # the BNM API requires this header
 
 

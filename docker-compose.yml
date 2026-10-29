@@ -16,6 +16,18 @@ services:
     image: adminer
     ports:
       - "8081:8080"
+
+  objectstore:
+    image: cgr.dev/chainguard/minio
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY}
+    ports:
+      - "19000:9000"
+    volumes:
+      - s3data:/data
  
 volumes:
   pgdata:
+  s3data:
