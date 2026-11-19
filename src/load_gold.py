@@ -1,4 +1,3 @@
-"""Load silver Parquet into PostgreSQL, then build and test the gold star schema with dbt (ELT)."""
 import pandas as pd
 from sqlalchemy import text
 
