@@ -1,3 +1,4 @@
+
 """Bronze -> silver: clean, validate and mask personal data."""
 import glob
 import hashlib
@@ -100,6 +101,7 @@ def clean_orders(customers, books):
 
     reasons = pd.Series("", index=o.index)
     reasons[o["quantity"] <= 0] += "invalid quantity;"
+    reasons[o["quantity"] > 50] += "suspiciously large data;"
     reasons[~o["customer_id"].isin(customers["customer_id"])] += "unknown customer;"
     reasons[~o["book_id"].isin(books["book_id"])] += "unknown book;"
     reasons[o["order_date"].isna()] += "bad date;"
